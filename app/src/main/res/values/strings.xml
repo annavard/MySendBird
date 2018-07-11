@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MySendBird</string>
+    <string name="user_id">User ID</string>
+    <string name="connect">Connect</string>
+</resources>
