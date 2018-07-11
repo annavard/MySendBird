@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                         return
                     }
                     Log.d(TAG, "getChannel - url - ${p0?.url}")
-                    Log.d(TAG, "getChannel - url - ${p0?.customType}")
+                    Log.d(TAG, "getChannel - customType - ${p0?.customType}")
                     for(member in p0?.members!!){
                         Log.d(TAG, "getChannel - member - ${member.userId}" )
                     }
@@ -150,8 +150,8 @@ class MainActivity : AppCompatActivity() {
                             p1.stackTrace
                             return
                         }
-                        Log.d(TAG, "createChannelWithUserIds - onResult - URL - ${p0?.url}")
-                        Log.d(TAG, "createChannelWithUserIds - onResult - customType - ${p0?.customType}")
+                        Log.d(TAG, "createChannelWithUserIds - URL - ${p0?.url}")
+                        Log.d(TAG, "createChannelWithUserIds - customType - ${p0?.customType}")
 
                         mGroupChannel = p0
                         mDistinctChannels?.put(productType, p0?.url)
