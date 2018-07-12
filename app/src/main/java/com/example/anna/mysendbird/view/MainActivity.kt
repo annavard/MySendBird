@@ -1,9 +1,10 @@
-package com.example.anna.mysendbird
+package com.example.anna.mysendbird.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.example.anna.mysendbird.R
 import com.sendbird.android.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.sendbird.android.SendBird

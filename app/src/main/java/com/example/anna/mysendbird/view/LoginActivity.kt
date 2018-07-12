@@ -1,4 +1,4 @@
-package com.example.anna.mysendbird
+package com.example.anna.mysendbird.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import com.example.anna.mysendbird.R
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBirdException
 import com.sendbird.android.User
