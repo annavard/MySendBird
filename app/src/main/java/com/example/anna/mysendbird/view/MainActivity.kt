@@ -5,20 +5,23 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.anna.mysendbird.R
+import com.example.anna.mysendbird.db.Channel
+import com.example.anna.mysendbird.repository.ChannelRepository
 import com.sendbird.android.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.sendbird.android.SendBird
 
 
+
 class MainActivity : AppCompatActivity() {
 
-    private var mUserId: String? = null
+    private lateinit var mHostUserId: String
 
     private var mGroupChannel: GroupChannel? = null
 
     private var mOtherUser: User? = null
 
-    private var mDistinctChannels: MutableMap<String, String?>? = null
+    private var mDistinctChannels: List<Channel>? = null
 
 
     companion object {
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (p0 is GroupChannel) {
                     Log.d(TAG, "onMessageReceived BaseChannel - customType - ${p0.customType}")
+                    val channel = Channel(p0.members[1].userId, p0.members[0].userId, p0.customType, p0.url)
+                    ChannelRepository.getInstance(application)?.insertChannel(channel)
                 }
 //                if (p0?.getUrl() == groupChannel?.url) {
                 if (p1 is UserMessage) {
@@ -68,9 +73,10 @@ class MainActivity : AppCompatActivity() {
 
         setOnclickListeners(img_flower, img_home, img_sofa, text_user3)
 
-        mUserId = intent.getStringExtra("user_id")
+        mHostUserId = intent.getStringExtra("user_id")
 
-        mDistinctChannels = mutableMapOf()
+        //Will get the list through ViewModel later
+        mDistinctChannels = ChannelRepository.getInstance(application)?.channels
 
     }
 
@@ -112,10 +118,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getChannel(userId: String, productType: String) {
+    private fun getChannel(otherUserId : String,  productType: String) {
 
-        if (mDistinctChannels?.keys?.contains(productType)!!) {
-            GroupChannel.getChannel(mDistinctChannels!![productType], object : GroupChannel.GroupChannelGetHandler {
+        val channel = Channel(mHostUserId, otherUserId, productType, null)
+
+        if (mDistinctChannels!!.contains(channel)) {
+
+            val index = mDistinctChannels!!.indexOf(channel)
+
+            GroupChannel.getChannel(mDistinctChannels!![index].url, object : GroupChannel.GroupChannelGetHandler {
                 override fun onResult(p0: GroupChannel?, p1: SendBirdException?) {
                     if (p1 != null) {
                         p1.stackTrace
@@ -126,19 +137,19 @@ class MainActivity : AppCompatActivity() {
                     for(member in p0?.members!!){
                         Log.d(TAG, "getChannel - member - ${member.userId}" )
                     }
-                    sendMessage(userId, "heylooo")
+                    sendMessage(otherUserId, "heylooo")
                 }
             })
 
             return
         }
 
-        createChannel(userId, productType)
+        createChannel(otherUserId, productType)
     }
 
 
-    private fun createChannel(userId: String, productType: String) {
-        var members = mutableListOf(mUserId, userId)
+    private fun createChannel(otherUserId: String, productType: String) {
+        var members = mutableListOf(mHostUserId, otherUserId)
         GroupChannel.createChannelWithUserIds(members,
                 false,
                 null,
@@ -155,8 +166,9 @@ class MainActivity : AppCompatActivity() {
                         Log.d(TAG, "createChannelWithUserIds - customType - ${p0?.customType}")
 
                         mGroupChannel = p0
-                        mDistinctChannels?.put(productType, p0?.url)
-                        sendMessage(userId, "holaaa")
+
+                        ChannelRepository.getInstance(application)?.insertChannel(Channel(mHostUserId, otherUserId, p0!!.customType, p0.url))
+                        sendMessage(otherUserId, "holaaa")
 //                inviteOtherUser(userId)
                     }
                 })
