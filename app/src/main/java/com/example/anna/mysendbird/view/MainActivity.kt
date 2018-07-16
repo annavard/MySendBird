@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.anna.mysendbird.R
+import com.example.anna.mysendbird.db.AppDatabase
 import com.example.anna.mysendbird.db.Channel
 import com.example.anna.mysendbird.repository.ChannelRepository
 import com.sendbird.android.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.sendbird.android.SendBird
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mOtherUser: User? = null
 
-    private var mDistinctChannels: List<Channel>? = null
+    private var mDistinctChannels: List<Channel>? = listOf()
 
 
     companion object {
@@ -75,10 +75,13 @@ class MainActivity : AppCompatActivity() {
 
         mHostUserId = intent.getStringExtra("user_id")
 
-        //Will get the list through ViewModel later
-        mDistinctChannels = ChannelRepository.getInstance(application)?.channels
+        //Get the list through ViewModel later
+
+       mDistinctChannels =  ChannelRepository.getInstance(application)?.channels
 
     }
+
+
 
 
     private fun setOnclickListeners(vararg views: View) {
@@ -102,6 +105,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun connectOtherUser(userId: String, productType: String) {
+        Log.d(TAG, "connectOtherUser - $userId")
 
         //Do not need to connect user for every product.
         SendBird.connect(userId, object : SendBird.ConnectHandler {
@@ -118,9 +122,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getChannel(otherUserId : String,  productType: String) {
+    private fun getChannel(otherUserId: String, productType: String) {
 
-        val channel = Channel(mHostUserId, otherUserId, productType, null)
+        val channel = Channel(mHostUserId, otherUserId, productType, "AAA")
 
         if (mDistinctChannels!!.contains(channel)) {
 
@@ -134,8 +138,8 @@ class MainActivity : AppCompatActivity() {
                     }
                     Log.d(TAG, "getChannel - url - ${p0?.url}")
                     Log.d(TAG, "getChannel - customType - ${p0?.customType}")
-                    for(member in p0?.members!!){
-                        Log.d(TAG, "getChannel - member - ${member.userId}" )
+                    for (member in p0?.members!!) {
+                        Log.d(TAG, "getChannel - member - ${member.userId}")
                     }
                     sendMessage(otherUserId, "heylooo")
                 }

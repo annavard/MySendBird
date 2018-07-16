@@ -12,7 +12,6 @@ interface ChannelDao {
     @Insert
     fun insert(channel: Channel)
 
-
     @Query("SELECT * FROM channel_table")
     fun getAllChannels(): List<Channel>
 

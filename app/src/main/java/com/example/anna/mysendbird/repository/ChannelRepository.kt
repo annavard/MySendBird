@@ -1,10 +1,12 @@
 package com.example.anna.mysendbird.repository
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
-import android.content.Context
+
+import android.util.Log
+import com.example.anna.mysendbird.db.AppDatabase
 import com.example.anna.mysendbird.db.Channel
 import com.example.anna.mysendbird.db.ChannelDao
+import com.example.anna.mysendbird.view.MainActivity
 
 class ChannelRepository(application: Application) {
 
@@ -13,7 +15,7 @@ class ChannelRepository(application: Application) {
     var channels: List<Channel>? = null
 
     init {
-        val db = ChannelRoomDatabase.getInstance(application)
+        val db = AppDatabase.getInstance(application)
         mChannelDao = db?.channelDao()
         channels = loadChannelsFromDb()
     }
@@ -35,10 +37,11 @@ class ChannelRepository(application: Application) {
 
 
     fun loadChannelsFromDb(): List<Channel>? {
+        Log.d(MainActivity.TAG, "loadChannelsFromDb")
         var list: List<Channel>? = null
         Thread(object : Runnable {
             override fun run() {
-                list = mChannelDao?.getAllChannels()
+                 list = mChannelDao?.getAllChannels()
             }
         }).start()
 
