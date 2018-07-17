@@ -1,20 +1,30 @@
 package com.example.anna.mysendbird.db
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.support.annotation.NonNull
 
 
 @Entity(tableName = "channel_table")
-class Channel(hostUserId: String, otherUserId: String, customType: String, url: String?) {
+class Channel(hostUserId: String?, otherUserId: String?, customType: String) {
+
+
+    @Ignore
+    constructor(hostUserId: String?,
+                otherUserId: String?,
+                customType: String,
+                url: String) : this(hostUserId, otherUserId, customType) {
+        this.url = url
+    }
 
 
     @NonNull
-    @PrimaryKey
+    @ColumnInfo
+    @PrimaryKey(autoGenerate = true)
+    var uId: Long = 0
+
+
     @ColumnInfo(name = "url")
-    var url = url
+     var url: String? = null
 
     @ColumnInfo(name = "host_user")
     var hostUserId = hostUserId
@@ -26,16 +36,16 @@ class Channel(hostUserId: String, otherUserId: String, customType: String, url: 
     var customType = customType
 
 
-//    override fun equals(other: Any?): Boolean {
-//        if (other is Channel) {
-//            if (other.hostUserId == hostUserId
-//                    && other.otherUserId == other.otherUserId
-//                    && other.customType == customType) {
-//                return true
-//            }
-//        }
-//        return false
-//    }
+    override fun equals(other: Any?): Boolean {
+        if (other is Channel) {
+            if (other.hostUserId == hostUserId
+                    && other.otherUserId == other.otherUserId
+                    && other.customType == customType) {
+                return true
+            }
+        }
+        return false
+    }
 
 
 }

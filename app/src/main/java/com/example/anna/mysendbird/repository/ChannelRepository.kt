@@ -17,7 +17,7 @@ class ChannelRepository(application: Application) {
     init {
         val db = AppDatabase.getInstance(application)
         mChannelDao = db?.channelDao()
-        channels = loadChannelsFromDb()
+//        channels = loadChannelsFromDb()
     }
 
     companion object {
@@ -36,12 +36,13 @@ class ChannelRepository(application: Application) {
     }
 
 
-    fun loadChannelsFromDb(): List<Channel>? {
+    fun loadChannelsFromDb(listener: DbListener, isInit: Boolean): List<Channel>? {
         Log.d(MainActivity.TAG, "loadChannelsFromDb")
         var list: List<Channel>? = null
         Thread(object : Runnable {
             override fun run() {
-                 list = mChannelDao?.getAllChannels()
+                list = mChannelDao?.getAllChannels()
+                listener.onLoaded(list, isInit)
             }
         }).start()
 
@@ -49,12 +50,22 @@ class ChannelRepository(application: Application) {
     }
 
 
-    fun insertChannel(channel: Channel) {
+    fun insertChannel(channel: Channel, listener: DbListener) {
 
         Thread(object : Runnable {
             override fun run() {
                 mChannelDao?.insert(channel)
+                listener.onInserted()
             }
         }).start()
+    }
+
+
+    public interface DbListener {
+        fun onInserted()
+
+        fun onLoaded(list: List<Channel>?, isInit : Boolean)
+
+        fun onDeleted()
     }
 }
