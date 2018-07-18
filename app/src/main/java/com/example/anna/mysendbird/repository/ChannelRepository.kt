@@ -6,7 +6,7 @@ import android.util.Log
 import com.example.anna.mysendbird.db.AppDatabase
 import com.example.anna.mysendbird.db.Channel
 import com.example.anna.mysendbird.db.ChannelDao
-import com.example.anna.mysendbird.view.MainActivity
+import com.example.anna.mysendbird.view.activity.MainActivity
 
 class ChannelRepository(application: Application) {
 
