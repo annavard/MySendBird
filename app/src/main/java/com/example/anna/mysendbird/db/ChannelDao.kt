@@ -13,10 +13,15 @@ interface ChannelDao {
     fun insert(channel: Channel)
 
     @Query("SELECT * FROM channel_table")
-    fun getAllChannels(): List<Channel>
+    fun getAllChannels(): MutableList<Channel>
 
     @Delete
     fun delete(channel: Channel)
+
+    @Query("UPDATE channel_table SET last_message = :lastMessage, created_at = :messageCreatedAt WHERE url = :url" )
+    fun updateChannel(url : String, lastMessage : String, messageCreatedAt : String) {
+
+    }
 
 
 }

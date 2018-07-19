@@ -7,6 +7,8 @@ import com.example.anna.mysendbird.db.AppDatabase
 import com.example.anna.mysendbird.db.Channel
 import com.example.anna.mysendbird.db.ChannelDao
 import com.example.anna.mysendbird.view.activity.MainActivity
+import com.sendbird.android.GroupChannel
+import com.sendbird.android.UserMessage
 
 class ChannelRepository(application: Application) {
 
@@ -36,13 +38,13 @@ class ChannelRepository(application: Application) {
     }
 
 
-    fun loadChannelsFromDb(listener: DbListener, isInit: Boolean): List<Channel>? {
+    fun loadChannelsFromDb(listener: DbListener, isInit: Boolean, runnable: Runnable): MutableList<Channel> {
         Log.d(MainActivity.TAG, "loadChannelsFromDb")
-        var list: List<Channel>? = null
+        var list: MutableList<Channel> = mutableListOf()
         Thread(object : Runnable {
             override fun run() {
-                list = mChannelDao?.getAllChannels()
-                listener.onLoaded(list, isInit)
+                list = mChannelDao?.getAllChannels()!!
+                listener.onLoaded(list, isInit, runnable)
             }
         }).start()
 
@@ -50,21 +52,28 @@ class ChannelRepository(application: Application) {
     }
 
 
-    fun insertChannel(channel: Channel, listener: DbListener) {
+    fun insertChannel(channel: Channel, listener: DbListener, isInit: Boolean, runnable: Runnable) {
 
         Thread(object : Runnable {
             override fun run() {
                 mChannelDao?.insert(channel)
-                listener.onInserted()
+                listener.onInserted(isInit, runnable)
             }
         }).start()
     }
 
+    fun updateChannel(channel: GroupChannel) {
+        Thread(Runnable {
+            mChannelDao?.updateChannel(channel.url!!, (channel.lastMessage as UserMessage).message, channel.lastMessage.createdAt.toString())
+        }).start()
+
+    }
+
 
     public interface DbListener {
-        fun onInserted()
+        fun onInserted(isInit: Boolean, runnable: Runnable)
 
-        fun onLoaded(list: List<Channel>?, isInit : Boolean)
+        fun onLoaded(list: MutableList<Channel>, isInit: Boolean, runnable: Runnable)
 
         fun onDeleted()
     }

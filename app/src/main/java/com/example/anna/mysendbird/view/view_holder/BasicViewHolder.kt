@@ -1,4 +1,4 @@
-package com.example.anna.mysendbird.view.adapter
+package com.example.anna.mysendbird.view.view_holder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

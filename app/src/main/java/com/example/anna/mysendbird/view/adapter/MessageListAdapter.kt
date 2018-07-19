@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.anna.mysendbird.R
-import com.example.anna.mysendbird.models.Message
 import com.example.anna.mysendbird.view.activity.MessageActivity
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.SendBird
-import com.sendbird.android.UserMessage
+import com.example.anna.mysendbird.view.view_holder.BasicViewHolder
+import com.example.anna.mysendbird.view.view_holder.ReceiveMessageViewHolder
 
 class MessageListAdapter(context: Context, messages: MutableList<String>) : RecyclerView.Adapter<BasicViewHolder>() {
 
@@ -24,16 +22,16 @@ class MessageListAdapter(context: Context, messages: MutableList<String>) : Recy
     private var mMessages: MutableList<String> = messages
 
 
-    override fun getItemViewType(position: Int): Int {
+//    override fun getItemViewType(position: Int): Int {
 //        val message: UserMessage = mMessages[position] as UserMessage
 //        return if (message.sender.userId == SendBird.getCurrentUser().userId) {
 //            VIEW_TYPE_MESSAGE_SENT
 //        } else {
 //            VIEW_TYPE_MESSAGE_RECEIVED
 //        }
-
-        return super.getItemViewType(position)
-    }
+//
+//        return super.getItemViewType(position)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasicViewHolder {
         Log.d(MessageActivity.TAG, "onCreateViewHolder")
@@ -54,7 +52,7 @@ class MessageListAdapter(context: Context, messages: MutableList<String>) : Recy
     }
 
     override fun getItemCount(): Int {
-        Log.d(MessageActivity.TAG, "getItemCount")
+        Log.d(MessageActivity.TAG, "getItemCount - ${mMessages.size}")
         return mMessages.size
     }
 

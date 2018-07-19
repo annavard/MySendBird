@@ -32,10 +32,7 @@ class MessageActivity : AppCompatActivity(){
 
 
         mAdapter = MessageListAdapter(this, mutableListOf("How it is going?", "Shut up!"))
-        val layoutManager = LinearLayoutManager(this)
-
         reycler_message_list.adapter = mAdapter
-        reycler_message_list.layoutManager = layoutManager
-
+        reycler_message_list.layoutManager = LinearLayoutManager(this)
     }
 }

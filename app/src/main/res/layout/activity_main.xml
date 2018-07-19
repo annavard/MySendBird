@@ -4,69 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.MainActivity"
-    tools:layout_editor_absoluteY="81dp">
-
-
-    <ImageView
-        android:id="@+id/img_flower"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:src="@drawable/flower"
-        app:layout_constraintBottom_toTopOf="@+id/img_sofa"
-        app:layout_constraintEnd_toEndOf="@+id/img_sofa"
-        app:layout_constraintStart_toStartOf="@+id/img_sofa"
-        app:layout_constraintTop_toBottomOf="@+id/text_host_user" />
-
-    <ImageView
-        android:id="@+id/img_home"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:src="@drawable/home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/img_sofa"
-        app:layout_constraintStart_toStartOf="@+id/img_sofa"
-        app:layout_constraintTop_toBottomOf="@+id/img_sofa" />
+    tools:context=".view.activity.MainActivity">
 
     <TextView
         android:id="@+id/text_host_user"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:background="@color/green_light"
         android:gravity="center"
-        android:padding="20dp"
         android:text="Host User"
-        app:layout_constraintStart_toEndOf="@+id/img_flower"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/gray"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
 
-    <ImageView
-        android:id="@+id/img_sofa"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginBottom="151dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="151dp"
-        android:src="@drawable/sofa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/text_other_user"
-        app:layout_constraintStart_toStartOf="parent"
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_product_list"
         app:layout_constraintTop_toBottomOf="@+id/text_host_user" />
 
-    <TextView
-        android:id="@+id/text_other_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="216dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginTop="216dp"
-        android:text="aaaa"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/img_sofa"
-        app:layout_constraintTop_toTopOf="@+id/img_flower" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
 </android.support.constraint.ConstraintLayout>

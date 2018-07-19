@@ -2,17 +2,26 @@ package com.example.anna.mysendbird.db
 
 import android.arch.persistence.room.*
 import android.support.annotation.NonNull
+import com.sendbird.android.UserMessage
 
 
 @Entity(tableName = "channel_table")
-class Channel(hostUserId: String?, otherUserId: String?, customType: String) {
+class Channel(hostUserId: String?,
+              otherUserId: String?,
+              customType: String,
+              lastMessage: String,
+              messageCreatedAt: String) {
 
 
     @Ignore
-    constructor(hostUserId: String?,
+    constructor(url: String,
+                hostUserId: String?,
                 otherUserId: String?,
                 customType: String,
-                url: String) : this(hostUserId, otherUserId, customType) {
+                lastMessage: String,
+                messageCreatedAt: String
+    ) : this(hostUserId, otherUserId, customType, lastMessage, messageCreatedAt) {
+
         this.url = url
     }
 
@@ -24,7 +33,7 @@ class Channel(hostUserId: String?, otherUserId: String?, customType: String) {
 
 
     @ColumnInfo(name = "url")
-     var url: String? = null
+    var url: String? = null
 
     @ColumnInfo(name = "host_user")
     var hostUserId = hostUserId
@@ -34,6 +43,12 @@ class Channel(hostUserId: String?, otherUserId: String?, customType: String) {
 
     @ColumnInfo(name = "custom_type")
     var customType = customType
+
+    @ColumnInfo(name = "last_message")
+    var lastMessage = lastMessage
+
+    @ColumnInfo(name = "created_at")
+    var messageCreatedAt: String = messageCreatedAt
 
 
     override fun equals(other: Any?): Boolean {
