@@ -2,11 +2,13 @@ package com.example.anna.mysendbird.view.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.anna.mysendbird.R
 import com.example.anna.mysendbird.models.Message
+import com.example.anna.mysendbird.view.activity.MessageActivity
 import com.sendbird.android.BaseMessage
 import com.sendbird.android.SendBird
 import com.sendbird.android.UserMessage
@@ -34,6 +36,7 @@ class MessageListAdapter(context: Context, messages: MutableList<String>) : Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasicViewHolder {
+        Log.d(MessageActivity.TAG, "onCreateViewHolder")
         var view: View
 //        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
 //            view = LayoutInflater.from(mContext).inflate(R.layout.item_message_sent, parent, false)
@@ -46,10 +49,12 @@ class MessageListAdapter(context: Context, messages: MutableList<String>) : Recy
 
 
     override fun onBindViewHolder(holder: BasicViewHolder, position: Int) {
+        Log.d(MessageActivity.TAG, "onBindViewHolder")
         holder.bindData(mMessages[position])
     }
 
     override fun getItemCount(): Int {
+        Log.d(MessageActivity.TAG, "getItemCount")
         return mMessages.size
     }
 

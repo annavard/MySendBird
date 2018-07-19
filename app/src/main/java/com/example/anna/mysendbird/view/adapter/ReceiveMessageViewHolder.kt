@@ -1,7 +1,9 @@
 package com.example.anna.mysendbird.view.adapter
 
+import android.util.Log
 import android.view.View
 import com.example.anna.mysendbird.models.Message
+import com.example.anna.mysendbird.view.activity.MessageActivity
 import com.sendbird.android.BaseMessage
 import com.sendbird.android.UserMessage
 import kotlinx.android.synthetic.main.item_message_received.view.*
@@ -14,15 +16,16 @@ class ReceiveMessageViewHolder(itemView: View) : BasicViewHolder(itemView) {
     var messageBodyText = itemView.txt_message_body_received
     var messageTimeText = itemView.txt_message_time_received
 
-    override fun bindData(userMessage: Message) {
-//        userProfileImage.setImageResource(userMessage.sender.profileUrl)
-        userNameText.text = userMessage.sender.nickname
-        messageBodyText.text = userMessage.message
-        messageTimeText.text = userMessage.createdAt
-
-    }
+//    override fun bindData(userMessage: Message) {
+////        userProfileImage.setImageResource(userMessage.sender.profileUrl)
+//        userNameText.text = userMessage.sender.nickname
+//        messageBodyText.text = userMessage.message
+//        messageTimeText.text = userMessage.createdAt
+//
+//    }
 
     override fun bindData(userMessage: String) {
+        Log.d(MessageActivity.TAG, "ReceiveMessageViewHolder - bindData userMessage - $userMessage")
 //        userProfileImage.setImageResource(userMessage.sender.profileUrl)
         userNameText.text = userMessage
 
