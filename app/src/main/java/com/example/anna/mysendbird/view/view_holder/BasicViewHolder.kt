@@ -11,5 +11,5 @@ open class BasicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
     open fun bindData(userMessage: UserMessage) {}
     open fun bindData(userMessage: Message) {}
-    open fun bindData(userMessage: String) {}
+//    open fun bindData(userMessage: String) {}
 }

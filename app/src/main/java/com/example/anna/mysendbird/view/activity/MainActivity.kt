@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.format.DateUtils
 import android.util.Log
 import com.example.anna.mysendbird.R
 import com.example.anna.mysendbird.db.Channel
@@ -17,7 +18,6 @@ import kotlinx.android.synthetic.main.item_product.*
 
 
 class MainActivity : AppCompatActivity(), ChannelRepository.DbListener, ChatViewHolder.ProductItemClickListener {
-
 
     private lateinit var mHostUserId: String
 
@@ -176,7 +176,10 @@ class MainActivity : AppCompatActivity(), ChannelRepository.DbListener, ChatView
         mGroupChannel?.sendUserMessage(message, object : BaseChannel.SendUserMessageHandler {
             override fun onSent(p0: UserMessage?, p1: SendBirdException?) {
                 Log.d(TAG, "sendMessage - onSent - ${p0?.message}")
-                ChannelRepository.getInstance(application)?.updateChannel(mGroupChannel!!)
+                val time = mGroupChannel?.lastMessage?.createdAt?.let { DateUtils.formatDateTime(this@MainActivity, it, DateUtils.FORMAT_SHOW_TIME) }
+                Log.d(TAG, "time - $time")
+                ChannelRepository.getInstance(application)?.updateChannel(mGroupChannel!!.url, p0?.message!!, time!!, this@MainActivity)
+
             }
         })
     }
@@ -253,6 +256,12 @@ class MainActivity : AppCompatActivity(), ChannelRepository.DbListener, ChatView
 
     }
 
+    override fun onUpdated(channelUrl: String, message: String, time: String, isInit: Boolean, runnable: Runnable) {
+        Log.d(TAG, "onUpdated")
+        ChannelRepository.getInstance(application)?.loadChannelsFromDb(this, isInit, runnable)
+    }
+
+
     override fun onDeleted() {
 //        Log.d(TAG, "onDeleted")
     }
@@ -262,6 +271,7 @@ class MainActivity : AppCompatActivity(), ChannelRepository.DbListener, ChatView
 
         //TODO; pass channel
         intent = Intent(this, MessageActivity::class.java)
+        intent.putExtra("url", mGroupChannel?.url)
         startActivity(intent)
     }
 }

@@ -7,8 +7,6 @@ import com.example.anna.mysendbird.db.AppDatabase
 import com.example.anna.mysendbird.db.Channel
 import com.example.anna.mysendbird.db.ChannelDao
 import com.example.anna.mysendbird.view.activity.MainActivity
-import com.sendbird.android.GroupChannel
-import com.sendbird.android.UserMessage
 
 class ChannelRepository(application: Application) {
 
@@ -62,9 +60,10 @@ class ChannelRepository(application: Application) {
         }).start()
     }
 
-    fun updateChannel(channel: GroupChannel) {
+    fun updateChannel(channelUrl : String, message : String, time : String, listener: DbListener) {
         Thread(Runnable {
-            mChannelDao?.updateChannel(channel.url!!, (channel.lastMessage as UserMessage).message, channel.lastMessage.createdAt.toString())
+            mChannelDao?.updateChannel(channelUrl, message, time)
+            listener.onUpdated(channelUrl, message, time, false, Runnable {  })
         }).start()
 
     }
@@ -74,6 +73,8 @@ class ChannelRepository(application: Application) {
         fun onInserted(isInit: Boolean, runnable: Runnable)
 
         fun onLoaded(list: MutableList<Channel>, isInit: Boolean, runnable: Runnable)
+
+        fun onUpdated(channelUrl: String, message: String, time : String, isInit: Boolean, runnable: Runnable)
 
         fun onDeleted()
     }
