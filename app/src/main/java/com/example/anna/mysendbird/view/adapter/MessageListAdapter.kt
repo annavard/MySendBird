@@ -37,7 +37,7 @@ class MessageListAdapter(context: Context, messages: MutableList<Message>) : Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasicViewHolder {
-        Log.d(MessageActivity.TAG, "onCreateViewHolder")
+//        Log.d(MessageActivity.TAG, "onCreateViewHolder")
         var view: View
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_message_sent, parent, false)
@@ -50,12 +50,12 @@ class MessageListAdapter(context: Context, messages: MutableList<Message>) : Rec
 
 
     override fun onBindViewHolder(holder: BasicViewHolder, position: Int) {
-        Log.d(MessageActivity.TAG, "onBindViewHolder")
+//        Log.d(MessageActivity.TAG, "onBindViewHolder")
         holder.bindData(mMessages[position])
     }
 
     override fun getItemCount(): Int {
-        Log.d(MessageActivity.TAG, "getItemCount - ${mMessages.size}")
+//        Log.d(MessageActivity.TAG, "getItemCount - ${mMessages.size}")
         return mMessages.size
     }
 
@@ -63,9 +63,9 @@ class MessageListAdapter(context: Context, messages: MutableList<Message>) : Rec
 //        Log.d(MessageActivity.TAG, "MessageListAdapter - update - ${messages.size}")
         mMessages.add(message)
 
-        for (m in mMessages){
-            Log.d(MessageActivity.TAG, "MessageListAdapter - ${m.message}")
-        }
+//        for (m in mMessages){
+//            Log.d(MessageActivity.TAG, "MessageListAdapter - ${m.message}")
+//        }
         notifyItemInserted(mMessages.size)
     }
 

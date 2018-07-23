@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_message_list.*
 import kotlinx.android.synthetic.main.item_product.*
 
+
 class MessageActivity : AppCompatActivity() {
 
     companion object {
@@ -77,16 +78,6 @@ class MessageActivity : AppCompatActivity() {
             }
         })
 
-
-        reycler_message_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if (mLayoutManager.findLastCompletelyVisibleItemPosition() < mLayoutManager.itemCount - 1) {
-                    reycler_message_list.scrollToPosition(mLayoutManager.itemCount - 1)
-                }
-            }
-        })
-
-
     }
 
 
@@ -121,10 +112,12 @@ class MessageActivity : AppCompatActivity() {
     private fun loadLastMessage() {
 
         for (message in mMessages) {
-            Log.d(TAG, "PreviousMessageListQuery - onResult - update - list - ${message.message}")
+//            Log.d(TAG, "PreviousMessageListQuery - onResult - update - list - ${message.message}")
         }
         val message = Message(User((mGroupChannel.lastMessage as UserMessage).sender.userId), (mGroupChannel.lastMessage as UserMessage).message, mGroupChannel.lastMessage.createdAt.toString())
         mAdapter.update(message)
+        scrollToLastPosition()
+
     }
 
     private fun sendMessage(message: String) {
@@ -138,6 +131,12 @@ class MessageActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun scrollToLastPosition() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() < mLayoutManager.itemCount - 1) {
+            reycler_message_list.smoothScrollToPosition(mLayoutManager.getItemCount() - 1)
+        }
     }
 
 }
